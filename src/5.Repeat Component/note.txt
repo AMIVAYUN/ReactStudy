@@ -1,0 +1,29 @@
+map 함수 구조
+arr.map(callback, [ thisArg ] )
+
+
+const IterationSample = () => {
+    const names = [ 'snow', 'ice','snowman', 'wind' ];
+    const nameList = names.map( name => <li>{name}</li>);
+    return <ul>{nameList}</ul>
+}
+
+해당 컴포넌트를 렌더링하면 콘솔에 아래와 같은 에러 문구가 발생한다.
+IterationSample.js:14 Warning: Each child in a list should have a unique "key" prop.
+
+
+왜 이럴까?
+
+리액트에서 key는 컴포넌트 배열을 렌더링 했을 때 어떤 원소에 변동이 있었는지 알아내려고 사용함.
+유동적인 데이터를 다룰 때 원소를 새로 생성할 수도, 제거할 수도, 수정할 수도 있다.
+key가 없을시 V DOM을 비교하는 과정에서 리스트를 순차적으로 비교하면서 변화를 감지.
+key가 있으면 이 값을 사용해 비교하기에 더 빠르게 파악 가능 
+
+key 값 설정은 map 함수의 인자로 전달되는 함수 내부에서 컴포넌트 props를 설정하듯이 설정하면 된다.
+ - key 값은 언제나 유일해야 한다.
+
+const IterationSample = () => {
+    const names = [ 'snow', 'ice','snowman', 'wind' ];
+    const nameList = names.map( (name, index ) => <li key = { index } >{name}</li>);
+    return <ul>{nameList}</ul>
+}
